@@ -15,3 +15,5 @@ class Transaction(BaseModel):
     amount = models.FloatField()
     class Meta:
         ordering = ('description',)
+    def isNegative(self):
+        return self.amount < 0

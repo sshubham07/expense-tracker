@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% block start %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.0.0/css/font-awesome.css" integrity="sha512-72McA95q/YhjwmWFMGe8RI3aZIMCTJWPBbV8iQY3jy1z9+bi6+jHnERuNrDPo/WGYEzzNs4WdHNyyEr/yXJ9pA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 <h1>Expense Tracker</h1>
 <div class="container">
   <div class="header">
@@ -23,25 +24,39 @@
     </div>
   </div>
   <h3>History</h3>
-  <ul id="list" class="list"></ul>
+  <ul id="list" class="list">
+    {% for transaction in transactions %}
+    <li class="{% if  transaction.isNegative %} minus {% else %} plus {% endif %}">
+    {{transaction.description}} <span>{{transaction.amount}}</span><button class="delete-btn" ><i class="fa fa-times"></i></button>
+    </li>
+ {% endfor %}
+  </ul>
   <h3>Add new transaction</h3>
-  <form id="form">
-    <div class="form-control">
+  <form id="form" method="post">
+    {% csrf_token %}
+    <div class="form-control" >
       <label for="text">Description</label>
-      <input type="text" id="text" placeholder="Enter description..." />
+      <input type="text" id="text" name="description" placeholder="Enter description..." />
     </div>
     <div class="form-control">
       <label for="amount"
         >Amount <br />
         <small>(-100 = expense, 100 = income)</small></label
       >
-      <input type="number" id="amount" placeholder="Enter amount..." />
+      <input type="number" id="amount" name="amount" placeholder="Enter amount..." />
     </div>
-    <button class="btn">Add transaction</button>
+    <button class="btn" type="submit">Add transaction</button>
   </form>
 </div>
 <!-- Notification -->
 <div class="notification-container" id="notification">
   <p>Please add a description and amount</p>
 </div>
+{% if messages %}
+<script>
+    {% for message in messages %}
+    alert("{{message}}")
+    {% endfor %}
+</script>
+{% endif %}
 {% endblock %}
