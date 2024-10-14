@@ -10,24 +10,25 @@
     />
     <div class="balance-container">
       <h2>Your Balance</h2>
-      <h2 id="balance" class="balance">$0.00</h2>
+      <h2 id="balance" class="balance">{{balance}}</h2>
     </div>
   </div>
   <div class="inc-exp-container">
     <div>
       <h4>Income</h4>
-      <p id="money-plus" class="money plus">+$0.00</p>
+      <p id="money-plus" class="money plus">{{income}}</p>
     </div>
     <div>
       <h4>Expenses</h4>
-      <p id="money-minus" class="money minus">-$0.00</p>
+      <p id="money-minus" class="money minus">{{expense}}</p>
     </div>
   </div>
   <h3>History</h3>
   <ul id="list" class="list">
     {% for transaction in transactions %}
     <li class="{% if  transaction.isNegative %} minus {% else %} plus {% endif %}">
-    {{transaction.description}} <span>{{transaction.amount}}</span><button class="delete-btn" ><i class="fa fa-times"></i></button>
+    {{transaction.description}} <span>{{transaction.amount}}</span>
+    <a href ="{% url 'deleteTransaction' transaction.uuid %}"class="delete-btn" ><i class="fa fa-times"></i></a>
     </li>
  {% endfor %}
   </ul>
